@@ -30,12 +30,12 @@ getPokemons(20);
 function createPokemon(pokemon) {
   // creamos la card
   const card = document.createElement("div");
-  card.classList.add("pokemon-block");
+  card.classList.add("pokemon-card");
 
   //   creamos el contenedor de la imagen
 
   const spriteContainer = document.createElement("div");
-  spriteContainer.classList.add("imag-container");
+  spriteContainer.classList.add("img-container");
 
   // creamos el img
 
@@ -50,7 +50,8 @@ function createPokemon(pokemon) {
 
   //   creamos el numero del pokemon
   const number = document.createElement("p");
-  number.textContent = `#${pokemon.id.toString().padStart(3, 0)}`;
+  // number.textContent = `#${pokemon.id.toString().padStart(3, 0)}`;
+  number.textContent = pokemon.id;
 
   //   creamos el nombre del pokemon
 
@@ -58,11 +59,22 @@ function createPokemon(pokemon) {
   name.classList.add("name");
   name.textContent = pokemon.name;
 
+  const tipo = document.createElement("div");
+  tipo.classList.add("tipo-pokemon");
+  tipo.textContent = pokemon.types[0].type.name;
+
+  if (pokemon.types[0].type.name === "grass") {
+    tipo.classList.add("tipoGrass");
+  } else if (pokemon.types[0].type.name === "fire") {
+    tipo.classList.add("tipoFire");
+  }
+
   //   agregamos a la card
 
-  card.appendChild(spriteContainer);
   card.appendChild(number);
+  card.appendChild(spriteContainer);
   card.appendChild(name);
+  card.appendChild(tipo);
 
   pokemonContainer.appendChild(card);
 }
