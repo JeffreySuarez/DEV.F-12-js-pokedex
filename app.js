@@ -8,7 +8,6 @@ async function getPokemon(id) {
     const pokemonsData = await responseJson;
     console.log(pokemonsData);
     createPokemon(pokemonsData);
-
     // createPokemon(pokemonsData);
   } catch (err) {
     console.log(err);
@@ -43,7 +42,7 @@ function createPokemon(pokemon) {
 
   //modificasmo el src
 
-  sprite.src = pokemon.sprites.front_default;
+  sprite.src = pokemon.sprites.other["official-artwork"].front_shiny;
 
   //   creamos la imagen del pokemon
   spriteContainer.appendChild(sprite);
@@ -55,16 +54,24 @@ function createPokemon(pokemon) {
 
   //   creamos el nombre del pokemon
 
-  const name = document.createElement("p");
+  const name = document.createElement("h2");
   name.classList.add("name");
   name.textContent = pokemon.name;
 
+  // haremos un recorrido del tipo de pokemon para agregarlos como parrafo en cada card
+
+  let tipos = pokemon.types.map((type) => ` <p>${type.type.name}</p> `);
+  tipos = tipos.join("");
+  console.log(tipos);
+
   const tipo = document.createElement("div");
   tipo.classList.add("tipo-pokemon");
-  tipo.textContent = pokemon.types[0].type.name;
+  // tipo.textContent = pokemon.types[0].type.name;
+  tipo.innerHTML = tipos;
 
   if (pokemon.types[0].type.name === "grass") {
     tipo.classList.add("tipoGrass");
+    card.classList.add("backgroundGrass");
   } else if (pokemon.types[0].type.name === "fire") {
     tipo.classList.add("tipoFire");
   }
