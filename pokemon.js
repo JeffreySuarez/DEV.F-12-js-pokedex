@@ -9,6 +9,10 @@ let pokemonContainer = document.querySelector(".pokemon-container");
 
 let searchInput = document.querySelector("#search");
 
+// creamos la variable donde almacenaremos el id del boton que usaremos para filtrar por tipo de pokemon
+
+let buttonFilter = document.querySelector("#fire");
+
 // ****************************************************************** //
 // ***                      CREACION VARIABLES                     ***//
 // ****************************************************************** //
@@ -25,7 +29,7 @@ const cleanArrayPokemon = () => {
 };
 
 // ****************************************************************** //
-// ***                          INPUT SEARCH                       ***//
+// ***                      INPUT SEARCH  FILTER                   ***//
 // ****************************************************************** //
 
 // utilizaremos el addeventListener para almacenar el valor del input en una varialbe y enviarla como argumento a una funcion para que ella realice su busqueda por el texto que escribamos
@@ -65,6 +69,39 @@ const searchByName = (searchByNameParameter) => {
     }
   });
   return filteredPokemon;
+};
+// ****************************************************************** //
+// ***                          FILTER BUTTON                      ***//
+// ****************************************************************** //
+
+buttonFilter.addEventListener("click", () => {
+  const dataButton = buttonFilter.textContent;
+
+  console.log(dataButton);
+
+  let listPokemonFire = searchByFire(dataButton);
+
+  // limpiamos el hmtl antes de mostrar la busqueda search
+  cleanArrayPokemon();
+
+  recorridoDelArray(listPokemonFire);
+
+  console.log(listPokemonFire);
+});
+
+const dataButton = buttonFilter.textContent;
+
+console.log(dataButton);
+
+// **************************************************
+
+let searchByFire = (searchByNameFire) => {
+  const filteredPokemonFire = listPokemon.filter((pokemon) => {
+    if (pokemon.tipo === searchByNameFire) {
+      return pokemon;
+    }
+  });
+  return filteredPokemonFire;
 };
 
 // ****************************************************************** //
@@ -106,11 +143,23 @@ const agregarListaPokemonArray = (name, pokemonData) => {
   let imagenPokemon = pokemonData.sprites.other["official-artwork"].front_default;
   //Extraemos el id de cada pokemon
   let id = pokemonData.id;
+  // creamos una variable donde almacenaremos el tipo de pokemon a recorrer
+  // realizamos un map para recorrer el array donde estan los tipos del pokemon al final le aplicamos un metodo join("") para mostrar los dos tipos si es que lo tienen.
+  let tipo = pokemonData.types.map((type) => `<p class="tipoPokemon">${type.type.name}</p>`);
+  tipo = tipo.join("");
+  console.log(tipo);
+
+  let oneTipo = pokemonData.types.map((type) => type.type.name);
+  oneTipo = oneTipo[0];
+  console.log(` El tipo del poquemon es = ${oneTipo}`);
+
   //   lo almacenamos en un objeto creado para luego hacer push
   const pokemon = {
     name: name,
     img: imagenPokemon,
     id: id,
+    tipos: tipo,
+    tipo: oneTipo,
   };
   // agregamos cada pokemon al arreglo listPokemon
   listPokemon.push(pokemon);
@@ -122,7 +171,9 @@ const agregarListaPokemonArray = (name, pokemonData) => {
 // creamos una funcion donde se creara el html el card el contenido hay varias formas de hacerlo
 let cardPokemon = (pokemon) => {
   console.log(pokemon);
-  console.log(`listado = > ${pokemon}`);
+  console.log(`listado = > ${pokemon.tipos}`);
+
+  // let tipo = pokemon.tipos;
   let cardPokemonContainer = document.createElement("div");
   cardPokemonContainer.classList = "pokemon-card";
   cardPokemonContainer.innerHTML = ` 
@@ -132,8 +183,10 @@ let cardPokemon = (pokemon) => {
                 <img src="${pokemon.img}"/>
             </div>
             <div class="tipo-pokemon">
+            ${pokemon.tipos}
             </div>
 `;
+
   pokemonContainer.appendChild(cardPokemonContainer);
 };
 
@@ -150,8 +203,11 @@ const recorridoDelArray = (array) => {
 // ****************************************************************** //
 // ***        INICIALIZACION AUTOMATICA DE LAS FUNCIONES           ***//
 // ****************************************************************** //
+
 (async () => {
   await getPokemon(URL);
 
   recorridoDelArray(listPokemon);
+
+  forciclo();
 })();
