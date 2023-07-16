@@ -1,12 +1,66 @@
 const pokemonContainer = document.querySelector(".pokemon-container");
 
+const searchInput = document.querySelector("#search");
+
+searchInput.addEventListener("keyup", async () => {
+  // traernos el valor del inpunt
+
+  const inputText = searchInput.value;
+
+  // const url = `https://pokeapi.co/api/v2/pokemon/${inputText}`;
+  // console.log(url);
+
+  pokemonContainer.innerHTML = "";
+
+  const filtrarPokemon = await getPokemon(inputText);
+
+  filtrarPokemon.filter((pokemon) => {
+    if (pokemon.name.includes(inputText)) {
+      console.log(pokemon);
+      return pokemon;
+    }
+  });
+
+  // searchByName(inputText);
+
+  return filtrarPokemon;
+});
+
+// const searchByName = (searchingParameter) => {
+//   pokemonContainer.innerHTML = "";
+
+//   const filtrarPokemon = getPokemon(searchingParameter);
+
+// filtrarPokemon.filter((pokemon) => {
+//   if (pokemon.includes(searchingParameter)) {
+//     console.log("es un filtro");
+//     return pokemon;
+//   }
+// });
+// const filteredPokemon = url.filter((pokemon) => {
+//   if (pokemon.name.includes(searchingParameter)) {
+//     return pokemon;
+//   }
+// });
+// return filteredPokemon;
+
+// console.log(`este es el filtro ${filtrarPokemon}`);
+// getPokemons(filtrarPokemon.length);
+// pokemonContainer.innerHTML = "";
+//   return filtrarPokemon;
+// };
+
 // funcion para hacer la solicitud a la api
 async function getPokemon(id) {
+  const url = "https://pokeapi.co/api/v2/pokemon/";
+  // url.results.map((e) => e.name);
+
   try {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
     const responseJson = await response.json();
     const pokemonsData = await responseJson;
     console.log(pokemonsData);
+
     createPokemon(pokemonsData);
     // createPokemon(pokemonsData);
   } catch (err) {
@@ -22,7 +76,7 @@ function getPokemons(number) {
   }
 }
 
-getPokemons(20);
+getPokemons(10);
 
 //funcion para crear la card de los pokemon
 
