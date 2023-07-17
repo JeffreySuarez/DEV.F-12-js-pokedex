@@ -167,7 +167,7 @@ buttonFilterTodos.addEventListener("click", () => {
 const getPokemon = async (URL) => {
   // cantindad de pokemones --> 1281
   try {
-    for (let i = 1; i <= 600; i++) {
+    for (let i = 1; i <= 800; i++) {
       const response = await fetch(URL + i);
       const responseJson = await response.json();
       const pokemonsData = responseJson;
