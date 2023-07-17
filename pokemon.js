@@ -10,8 +10,26 @@ let pokemonContainer = document.querySelector(".pokemon-container");
 let searchInput = document.querySelector("#search");
 
 // creamos la variable donde almacenaremos el id del boton que usaremos para filtrar por tipo de pokemon
-
-let buttonFilter = document.querySelector("#fire");
+let buttonFilter = document.querySelectorAll(".btn-header");
+// let buttonFilterFire = document.querySelector("#fire");
+let buttonFilterTodos = document.querySelector("#ver-todos");
+// let buttonFilterNormal = document.querySelector("#normal");
+// let buttonFilterWater = document.querySelector("#water");
+// let buttonFilterGrass = document.querySelector("#grass");
+// let buttonFilterElectric = document.querySelector("#electric");
+// let buttonFilterIce = document.querySelector("#ice");
+// let buttonFilterFighting = document.querySelector("#fighting");
+// let buttonFilterPoison = document.querySelector("#poison");
+// let buttonFilterGround = document.querySelector("#ground");
+// let buttonFilterFlying = document.querySelector("#flying");
+// let buttonFilterPhychic = document.querySelector("#phychic");
+// let buttonFilterBug = document.querySelector("#bug");
+// let buttonFilterRock = document.querySelector("#rock");
+// let buttonFilterGhost = document.querySelector("#ghost");
+// let buttonFilterDark = document.querySelector("#dark");
+// let buttonFilterDragon = document.querySelector("#dragon");
+// let buttonFilterSteel = document.querySelector("#steel");
+// let buttonFilterFairy = document.querySelector("#fairy");
 
 // ****************************************************************** //
 // ***                      CREACION VARIABLES                     ***//
@@ -19,6 +37,7 @@ let buttonFilter = document.querySelector("#fire");
 
 // almacenamos en una constante la URL de la api
 const URL = "https://pokeapi.co/api/v2/pokemon/";
+console.log(URL.count);
 
 // creamos una variable donde almacenaremos los pokemon
 let listPokemon = [];
@@ -45,14 +64,14 @@ searchInput.addEventListener("keyup", () => {
   // cuando ejecutamos listPokemon2 se almacena en el un nuevo array con los pokemones filtrados en la funcion searchByName despues este nuevo array se envia como argumento a la funcion recorridoDelArray para que el renderice el html con cardPokemon
   let listPokemon2 = searchByName(inputText);
 
-  console.log(listPokemon2);
+  // console.log(listPokemon2);
 
   // limpiamos el hmtl antes de mostrar la busqueda search
   cleanArrayPokemon();
 
   recorridoDelArray(listPokemon2);
 
-  console.log(listPokemon2);
+  // console.log(listPokemon2);
 });
 
 // ****************************************************************** //
@@ -74,35 +93,60 @@ const searchByName = (searchByNameParameter) => {
 // ***                          FILTER BUTTON                      ***//
 // ****************************************************************** //
 
-buttonFilter.addEventListener("click", () => {
-  const dataButton = buttonFilter.textContent;
+//*** Filtro fire **************************************************
 
-  console.log(dataButton);
+let listPokemonType;
 
-  let listPokemonFire = searchByFire(dataButton);
-
-  // limpiamos el hmtl antes de mostrar la busqueda search
-  cleanArrayPokemon();
-
-  recorridoDelArray(listPokemonFire);
-
-  console.log(listPokemonFire);
+buttonFilter.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const botonId = e.currentTarget.id;
+    console.log(botonId);
+    listPokemonType = searchByType(botonId);
+    cleanArrayPokemon();
+    recorridoDelArray(listPokemonType);
+  });
 });
 
-const dataButton = buttonFilter.textContent;
+// buttonFilterNormal.addEventListener("click", () => {
+//   const dataButton = buttonFilterNormal.textContent;
+//   console.log(dataButton);
+//   listPokemonType = searchByType(dataButton);
+//   // limpiamos el hmtl antes de mostrar la busqueda search
+//   cleanArrayPokemon();
+//   console.log(listPokemon);
+//   recorridoDelArray(listPokemonType);
+//   console.log(listPokemonType);
+// });
 
-console.log(dataButton);
+// buttonFilterFire.addEventListener("click", () => {
+//   const dataButton = buttonFilterFire.textContent;
+//   console.log(dataButton);
+//   listPokemonType = searchByType(dataButton);
+//   // limpiamos el hmtl antes de mostrar la busqueda search
+//   cleanArrayPokemon();
+//   console.log(listPokemon);
+//   recorridoDelArray(listPokemonType);
+//   console.log(listPokemonType);
+// });
 
-// **************************************************
-
-let searchByFire = (searchByNameFire) => {
-  const filteredPokemonFire = listPokemon.filter((pokemon) => {
-    if (pokemon.tipo === searchByNameFire) {
+let searchByType = (search) => {
+  const filteredPokemon = listPokemon.filter((pokemon) => {
+    if (pokemon.tipo === search) {
       return pokemon;
     }
   });
-  return filteredPokemonFire;
+  return filteredPokemon;
 };
+
+// ************* Filtro Todos ************************************
+
+buttonFilterTodos.addEventListener("click", () => {
+  const dataButton = buttonFilterTodos.textContent;
+  cleanArrayPokemon();
+  recorridoDelArray(listPokemon);
+
+  console.log(dataButton);
+});
 
 // ****************************************************************** //
 // ***                      OBTENER POKEMON API                    ***//
@@ -111,34 +155,52 @@ let searchByFire = (searchByNameFire) => {
 
 const getPokemon = async (URL) => {
   try {
-    const response = await fetch(URL);
-    const responseJson = await response.json();
-    const pokemonsData = responseJson.results;
-    //creamos un ciclo for of para recorrer la data y extraer el name y la url donde se encontrara mas informacion del pokemon, esos datos los pasaremos luegos como argumento a la funcion agregarListaPokemonArray y como es un ciclo es ira mostrando uno a uno
-    for (pokemon of pokemonsData) {
-      const name = pokemon.name;
-      const url = pokemon.url;
-      try {
-        const res = await fetch(url);
-        const resJson = await res.json();
-        const pokemonData = resJson;
-        console.log(pokemonData);
-        // agregamos la funcion para hacer push al listPokemon estos datos van como argumentos a la funcion agregarListaPokemonArray
-        agregarListaPokemonArray(name, pokemonData);
-      } catch (err) {
-        console.log(err);
-      }
+    for (let i = 1; i <= 1281; i++) {
+      const response = await fetch(URL + i);
+      const responseJson = await response.json();
+      const pokemonsData = responseJson;
+
+      console.log(pokemonsData);
+
+      agregarListaPokemonArray(pokemonsData);
     }
+
+    // const response = await fetch(URL);
+
+    //creamos un ciclo for of para recorrer la data y extraer el name y la url donde se encontrara mas informacion del pokemon, esos datos los pasaremos luegos como argumento a la funcion agregarListaPokemonArray y como es un ciclo es ira mostrando uno a uno
+    // for (pokemon of pokemonsData) {
+    //   const name = pokemon.name;
+    //   // const url = pokemon.url;
+    //   // console.log(url);
+    //   try {
+    //     const res = await fetch(url);
+    //     const resJson = await res.json();
+    //     const pokemonData = resJson;
+    //     console.log(pokemonData);
+
+    //     // agregamos la funcion para hacer push al listPokemon estos datos van como argumentos a la funcion agregarListaPokemonArray
+    //     agregarListaPokemonArray(name, pokemonData);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
   } catch (err) {
     console.log(err);
   }
 };
 
+// for (let i = 0; i < listPokemon.length; i++) {
+//   const element = listPokemon[i];
+//   console.log(element);
+// }
+
 // ****************************************************************** //
 // ***                      AGREGAR POKEMON AL ARRAY               ***//
 // ****************************************************************** //
 // creamos una variable donde alojaremos una funcion que va a recibir la informacion del ciclo for y almacenarlo en el objeto para hacerle push a la variable listPokemon y almacenarlo.
-const agregarListaPokemonArray = (name, pokemonData) => {
+const agregarListaPokemonArray = (pokemonData) => {
+  let name = pokemonData.name;
+
   // extraemos la imagen del pokemon
   let imagenPokemon = pokemonData.sprites.other["official-artwork"].front_default;
   //Extraemos el id de cada pokemon
@@ -147,11 +209,11 @@ const agregarListaPokemonArray = (name, pokemonData) => {
   // realizamos un map para recorrer el array donde estan los tipos del pokemon al final le aplicamos un metodo join("") para mostrar los dos tipos si es que lo tienen.
   let tipo = pokemonData.types.map((type) => `<p class="tipoPokemon">${type.type.name}</p>`);
   tipo = tipo.join("");
-  console.log(tipo);
+  // console.log(tipo);
 
   let oneTipo = pokemonData.types.map((type) => type.type.name);
   oneTipo = oneTipo[0];
-  console.log(` El tipo del poquemon es = ${oneTipo}`);
+  // console.log(` El tipo del poquemon es = ${oneTipo}`);
 
   //   lo almacenamos en un objeto creado para luego hacer push
   const pokemon = {
@@ -170,8 +232,8 @@ const agregarListaPokemonArray = (name, pokemonData) => {
 // ****************************************************************** //
 // creamos una funcion donde se creara el html el card el contenido hay varias formas de hacerlo
 let cardPokemon = (pokemon) => {
-  console.log(pokemon);
-  console.log(`listado = > ${pokemon.tipos}`);
+  // console.log(pokemon);
+  // console.log(`listado = > ${pokemon.tipos}`);
 
   // let tipo = pokemon.tipos;
   let cardPokemonContainer = document.createElement("div");
@@ -206,8 +268,5 @@ const recorridoDelArray = (array) => {
 
 (async () => {
   await getPokemon(URL);
-
   recorridoDelArray(listPokemon);
-
-  forciclo();
 })();
