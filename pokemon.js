@@ -11,6 +11,7 @@ let searchInput = document.querySelector("#search");
 
 // creamos la variable donde almacenaremos el id del boton que usaremos para filtrar por tipo de pokemon
 let buttonFilter = document.querySelectorAll(".btn-header");
+// console.log(buttonFilter);
 // let buttonFilterFire = document.querySelector("#fire");
 let buttonFilterTodos = document.querySelector("#ver-todos");
 // let buttonFilterNormal = document.querySelector("#normal");
@@ -31,13 +32,14 @@ let buttonFilterTodos = document.querySelector("#ver-todos");
 // let buttonFilterSteel = document.querySelector("#steel");
 // let buttonFilterFairy = document.querySelector("#fairy");
 
+const spinner = document.querySelector("#spinner");
+
 // ****************************************************************** //
 // ***                      CREACION VARIABLES                     ***//
 // ****************************************************************** //
 
 // almacenamos en una constante la URL de la api
 const URL = "https://pokeapi.co/api/v2/pokemon/";
-console.log(URL.count);
 
 // creamos una variable donde almacenaremos los pokemon
 let listPokemon = [];
@@ -90,17 +92,26 @@ const searchByName = (searchByNameParameter) => {
   return filteredPokemon;
 };
 // ****************************************************************** //
-// ***                          FILTER BUTTON                      ***//
+// ***                          FILTER BUTTONS                      ***//
 // ****************************************************************** //
 
-//*** Filtro fire **************************************************
+//*** Filtro general **************************************************
+
+// se crea una variable para almacenar el tipo de pokemon
+// se llama el metodo foreach al buttonFilter para recorrer todos los elementos que tienen la clase btn-header asi se recorre los elementos.
+
+// al recorrerlo la idea es poder acceder al id de cada elemento que tiene descrito el tipo de pokemon en los botones, por eso guardamos el id en una variable y consiguiendola con el evento e.currenTarget.id
+
+//despues en la varialbes que se creo listPokemonType hacemos un llamado a la funcion searchByType que es un filter y realizaremos esa busqueda por el tipo segun el boton que presionemos. ahi se almacenaran los pokemones segun el tipo
+
+// despues de hacer eso ese listado se pasa por el recorridoDelArray para que lo muestre en pantalla
 
 let listPokemonType;
 
 buttonFilter.forEach((button) => {
   button.addEventListener("click", (e) => {
     const botonId = e.currentTarget.id;
-    console.log(botonId);
+    // console.log(botonId);
     listPokemonType = searchByType(botonId);
     cleanArrayPokemon();
     recorridoDelArray(listPokemonType);
@@ -138,14 +149,14 @@ let searchByType = (search) => {
   return filteredPokemon;
 };
 
-// ************* Filtro Todos ************************************
+// ************* Filtro ************************************
 
 buttonFilterTodos.addEventListener("click", () => {
   const dataButton = buttonFilterTodos.textContent;
   cleanArrayPokemon();
   recorridoDelArray(listPokemon);
 
-  console.log(dataButton);
+  // console.log(dataButton);
 });
 
 // ****************************************************************** //
@@ -154,15 +165,17 @@ buttonFilterTodos.addEventListener("click", () => {
 // creamos una funcion asincrona donde extraemos los pokemons
 
 const getPokemon = async (URL) => {
+  // cantindad de pokemones --> 1281
   try {
     for (let i = 1; i <= 1281; i++) {
       const response = await fetch(URL + i);
       const responseJson = await response.json();
       const pokemonsData = responseJson;
 
-      console.log(pokemonsData);
+      // console.log(pokemonsData);
 
       agregarListaPokemonArray(pokemonsData);
+      spinner.style.display = "block";
     }
 
     // const response = await fetch(URL);
@@ -208,11 +221,13 @@ const agregarListaPokemonArray = (pokemonData) => {
   // creamos una variable donde almacenaremos el tipo de pokemon a recorrer
   // realizamos un map para recorrer el array donde estan los tipos del pokemon al final le aplicamos un metodo join("") para mostrar los dos tipos si es que lo tienen.
   let tipo = pokemonData.types.map((type) => `<p class="tipoPokemon">${type.type.name}</p>`);
-  tipo = tipo.join("");
+  // tipo = tipo.join("");
+  tipo = tipo[0];
   // console.log(tipo);
 
   let oneTipo = pokemonData.types.map((type) => type.type.name);
   oneTipo = oneTipo[0];
+
   // console.log(` El tipo del poquemon es = ${oneTipo}`);
 
   //   lo almacenamos en un objeto creado para luego hacer push
@@ -238,19 +253,86 @@ let cardPokemon = (pokemon) => {
   // let tipo = pokemon.tipos;
   let cardPokemonContainer = document.createElement("div");
   cardPokemonContainer.classList = "pokemon-card";
-  cardPokemonContainer.innerHTML = ` 
-            <p>${pokemon.id}</p>
-            <h2 class="name" >${pokemon.name}</h2>
-            <div class="img-container">
-                <img src="${pokemon.img}"/>
-            </div>
-            <div class="tipo-pokemon">
-            ${pokemon.tipos}
-            </div>
-`;
 
+  let namePokemon = document.createElement("h2");
+  namePokemon.classList = "name";
+  namePokemon.innerHTML = `${pokemon.name}`;
+
+  let divImgPokemon = document.createElement("div");
+  divImgPokemon.classList = "img-container";
+
+  let imgPokemon = document.createElement("img");
+  imgPokemon.src = `${pokemon.img}`;
+
+  let idPokemon = document.createElement("P");
+  idPokemon.classList.add("idPokemon");
+  idPokemon.id = `${pokemon.id}`;
+  idPokemon.innerHTML = `${pokemon.id}`;
+
+  let buttonDatos = document.createElement("button");
+  buttonDatos.classList.add("buttonPokemon");
+  buttonDatos.id = `${pokemon.id}`;
+  buttonDatos.innerText = "View Detail";
+
+  let contentTipoPokemon = document.createElement("div");
+  contentTipoPokemon.classList = "tipo-pokemon";
+  contentTipoPokemon.innerHTML = `${pokemon.tipo}`;
+
+  if (pokemon.tipo === "grass") {
+    contentTipoPokemon.classList.add("tipoGrass");
+    // card.classList.add("backgroundGrass");
+  } else if (pokemon.tipo === "fire") {
+    contentTipoPokemon.classList.add("tipoFire");
+  } else if (pokemon.tipo === "water") {
+    contentTipoPokemon.classList.add("tipoWater");
+  } else if (pokemon.tipo === "normal") {
+    contentTipoPokemon.classList.add("tipoNormal");
+  } else if (pokemon.tipo === "poison") {
+    contentTipoPokemon.classList.add("tipoPoison");
+  } else if (pokemon.tipo === "electric") {
+    contentTipoPokemon.classList.add("tipoElectric");
+  } else if (pokemon.tipo === "ice") {
+    contentTipoPokemon.classList.add("tipoIce");
+  } else if (pokemon.tipo === "fighting") {
+    contentTipoPokemon.classList.add("tipoFighting");
+  } else if (pokemon.tipo === "ground") {
+    contentTipoPokemon.classList.add("tipoGround");
+  } else if (pokemon.tipo === "flying") {
+    contentTipoPokemon.classList.add("tipoFlying");
+  } else if (pokemon.tipo === "psychic") {
+    contentTipoPokemon.classList.add("tipoPsychic");
+  } else if (pokemon.tipo === "bug") {
+    contentTipoPokemon.classList.add("tipoBug");
+  } else if (pokemon.tipo === "rock") {
+    contentTipoPokemon.classList.add("tipoRock");
+  } else if (pokemon.tipo === "ghost") {
+    contentTipoPokemon.classList.add("tipoGhost");
+  } else if (pokemon.tipo === "dark") {
+    contentTipoPokemon.classList.add("tipoDark");
+  } else if (pokemon.tipo === "dragon") {
+    contentTipoPokemon.classList.add("tipoDragon");
+  } else if (pokemon.tipo === "steel") {
+    contentTipoPokemon.classList.add("tipoSteel");
+  } else if (pokemon.tipo === "fairy") {
+    contentTipoPokemon.classList.add("tipoFairy");
+  }
+
+  //agregando al html
+  cardPokemonContainer.appendChild(idPokemon);
+  cardPokemonContainer.appendChild(namePokemon);
+  cardPokemonContainer.appendChild(divImgPokemon);
+  divImgPokemon.appendChild(imgPokemon);
+  cardPokemonContainer.appendChild(contentTipoPokemon);
+  cardPokemonContainer.appendChild(buttonDatos);
   pokemonContainer.appendChild(cardPokemonContainer);
+
+  const evento = document.querySelectorAll(".pokemon-card");
+  const ciclo = evento.forEach((e) => {
+    e.addEventListener("click", () => {});
+  });
 };
+
+//
 
 // ****************************************************************** //
 
@@ -259,6 +341,7 @@ let cardPokemon = (pokemon) => {
 const recorridoDelArray = (array) => {
   for (let pokemon of array) {
     cardPokemon(pokemon);
+    spinner.style.display = "none";
   }
 };
 

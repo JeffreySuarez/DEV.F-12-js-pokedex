@@ -49,6 +49,7 @@ button {
 }
 header {
   width: 100%;
+  height: auto;
 }
 
 .search {
@@ -76,9 +77,7 @@ header {
 
 .btn-header {
   background-color: var(--color-gray);
-
   padding: 0.375rem 0.75rem;
-
   text-transform: uppercase;
   display: inline-block;
   font-weight: 400;
@@ -176,6 +175,13 @@ header {
   border: 1px solid var(--color-black);
   padding: 10px;
   border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.pokemon-card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.25);
 }
 
 .pokemon-container {
@@ -184,24 +190,104 @@ header {
   flex-wrap: wrap;
 }
 
+/* **************************************************************** */
 /* colores del tipo */
 
 .tipoGrass {
   background-color: var(--type-grass);
-  color: var(--color-white);
-  font-weight: bold;
+  color: var(--color-black);
 }
 
 .tipoFire {
   background-color: var(--type-fire);
   color: var(--color-white);
-  font-weight: bold;
+}
+
+.tipoWater {
+  background-color: var(--type-water);
+  color: var(--color-black);
+}
+
+.tipoNormal {
+  background-color: var(--type-normal);
+  color: var(--color-white);
+}
+
+.tipoPoison {
+  background-color: var(--type-poison);
+  color: var(--color-white);
+}
+
+.tipoElectric {
+  background-color: var(--type-electric);
+  color: var(--color-black);
+}
+
+.tipoIce {
+  background-color: var(--type-ice);
+  color: var(--color-black);
+}
+
+.tipoFighting {
+  background-color: var(--type-fighting);
+  color: var(--color-white);
+}
+
+.tipoGround {
+  background-color: var(--type-ground);
+  color: var(--color-black);
+}
+
+.tipoFlying {
+  background-color: var(--type-flying);
+  color: var(--color-black);
+}
+
+.tipoPsychic {
+  background-color: var(--type-psychic);
+  color: var(--color-black);
+}
+
+.tipoBug {
+  background-color: var(--type-bug);
+  color: var(--color-black);
+}
+
+.tipoRock {
+  background-color: var(--type-rock);
+  color: var(--color-black);
+}
+
+.tipoGhost {
+  background-color: var(--type-ghost);
+  color: var(--color-white);
+}
+
+.tipoDark {
+  background-color: var(--type-dark);
+  color: var(--color-white);
+}
+
+.tipoDragon {
+  background-color: var(--type-dragon);
+  color: var(--color-white);
+}
+
+.tipoSteel {
+  background-color: var(--type-steel);
+  color: var(--color-black);
+}
+
+.tipoFairy {
+  background-color: var(--type-fairy);
+  color: var(--color-black);
 }
 
 .backgroundGrass {
   background-color: rgb(139, 255, 139);
 }
 
+/* ****************************************************** */
 /* configurando tamaño de las imagenes */
 .img-container {
   width: 100px;
@@ -212,4 +298,25 @@ header {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* ****************************************************** */
+/* estilos modal */
+
+.modal-pokemon {
+  border: 2px solid black;
+  padding: 30px;
+}
+
+.contentSpinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#spinner {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
