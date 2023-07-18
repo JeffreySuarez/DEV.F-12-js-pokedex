@@ -280,41 +280,58 @@ let cardPokemon = (pokemon) => {
 
   if (pokemon.tipo === "grass") {
     contentTipoPokemon.classList.add("tipoGrass");
-    // card.classList.add("backgroundGrass");
+    cardPokemonContainer.classList.add("tipoGrass");
   } else if (pokemon.tipo === "fire") {
     contentTipoPokemon.classList.add("tipoFire");
+    cardPokemonContainer.classList.add("tipoFire");
   } else if (pokemon.tipo === "water") {
     contentTipoPokemon.classList.add("tipoWater");
+    cardPokemonContainer.classList.add("tipoWater");
   } else if (pokemon.tipo === "normal") {
     contentTipoPokemon.classList.add("tipoNormal");
+    cardPokemonContainer.classList.add("tipoNormal");
   } else if (pokemon.tipo === "poison") {
     contentTipoPokemon.classList.add("tipoPoison");
+    cardPokemonContainer.classList.add("tipoPoison");
   } else if (pokemon.tipo === "electric") {
     contentTipoPokemon.classList.add("tipoElectric");
+    cardPokemonContainer.classList.add("tipoElectric");
   } else if (pokemon.tipo === "ice") {
     contentTipoPokemon.classList.add("tipoIce");
+    cardPokemonContainer.classList.add("tipoIce");
   } else if (pokemon.tipo === "fighting") {
     contentTipoPokemon.classList.add("tipoFighting");
+    cardPokemonContainer.classList.add("tipoFighting");
   } else if (pokemon.tipo === "ground") {
     contentTipoPokemon.classList.add("tipoGround");
+    cardPokemonContainer.classList.add("tipoGround");
   } else if (pokemon.tipo === "flying") {
     contentTipoPokemon.classList.add("tipoFlying");
+    cardPokemonContainer.classList.add("tipoFlying");
   } else if (pokemon.tipo === "psychic") {
     contentTipoPokemon.classList.add("tipoPsychic");
+    cardPokemonContainer.classList.add("tipoPsychic");
   } else if (pokemon.tipo === "bug") {
     contentTipoPokemon.classList.add("tipoBug");
+    cardPokemonContainer.classList.add("tipoBug");
   } else if (pokemon.tipo === "rock") {
     contentTipoPokemon.classList.add("tipoRock");
+    cardPokemonContainer.classList.add("tipoRock");
   } else if (pokemon.tipo === "ghost") {
     contentTipoPokemon.classList.add("tipoGhost");
+    cardPokemonContainer.classList.add("tipoGhost");
   } else if (pokemon.tipo === "dark") {
     contentTipoPokemon.classList.add("tipoDark");
+    cardPokemonContainer.classList.add("tipoDark");
   } else if (pokemon.tipo === "dragon") {
     contentTipoPokemon.classList.add("tipoDragon");
+    cardPokemonContainer.classList.add("tipoDragon");
   } else if (pokemon.tipo === "steel") {
     contentTipoPokemon.classList.add("tipoSteel");
+    cardPokemonContainer.classList.add("tipoSteel");
   } else if (pokemon.tipo === "fairy") {
     contentTipoPokemon.classList.add("tipoFairy");
+    cardPokemonContainer.classList.add("tipoFairy");
   }
 
   //agregando al html
@@ -323,7 +340,7 @@ let cardPokemon = (pokemon) => {
   cardPokemonContainer.appendChild(divImgPokemon);
   divImgPokemon.appendChild(imgPokemon);
   cardPokemonContainer.appendChild(contentTipoPokemon);
-  cardPokemonContainer.appendChild(buttonDatos);
+  // cardPokemonContainer.appendChild(buttonDatos);
   pokemonContainer.appendChild(cardPokemonContainer);
 
   const evento = document.querySelectorAll(".pokemon-card");
